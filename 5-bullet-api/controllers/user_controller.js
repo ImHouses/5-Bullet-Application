@@ -1,6 +1,9 @@
 const User = require("../models/user");
 const Constants = require("../utils/constants");
 
+/**
+ * Error to inform that a user has already been registered.
+ */
 const userAlreadyRegisteredError = {
   error: 500,
   message: "User already registered."
@@ -8,6 +11,11 @@ const userAlreadyRegisteredError = {
 
 class UserController {
 
+  /**
+   * Creates a new user.
+   * @param {*} req The request to the server. 
+   * @param {*} res The response object to the client.
+   */
   async register(req, res) {
     try {
       if (await this.isRegistered(req.body.email)) {
@@ -25,6 +33,12 @@ class UserController {
     }
   }
 
+  /**
+   * TODO: Requires auth.
+   * 
+   * @param req The request to the server.
+   * @param res The response object.
+   */
   async getUserByEmail(req, res) {
     try {
       const response = { ...Constants.responseTemplate };
@@ -38,6 +52,10 @@ class UserController {
     }
   }
 
+  /**
+   * Tell us if this email was registered or not.
+   * @param {String} email The email to check if it is registrerd or not.
+   */
   async isRegistered(email) {
     try {
       const query = User.where({ email: email });
@@ -47,6 +65,11 @@ class UserController {
     }
   }
 
+  /**
+   * TODO: Requires auth and admin permissions.
+   * 
+   * @param res The response object.
+   */
   async getUserListing(res) {
     try {
       const response = { ...Constants.responseTemplate };
